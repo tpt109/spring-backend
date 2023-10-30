@@ -19,11 +19,11 @@ public class SortItem implements Serializable {
     }
 
     public static List<SortItem> ascs(String... columns) {
-        return (List) Arrays.stream(columns).map(SortItem::asc).collect(Collectors.toList());
+        return (List<SortItem>) Arrays.stream(columns).map(SortItem::asc).collect(Collectors.toList());
     }
 
     public static List<SortItem> descs(String... columns) {
-        return (List)Arrays.stream(columns).map(SortItem::desc).collect(Collectors.toList());
+        return (List<SortItem>)Arrays.stream(columns).map(SortItem::desc).collect(Collectors.toList());
     }
 
     private static SortItem build(String column, boolean asc) {
