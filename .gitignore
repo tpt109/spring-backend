@@ -40,4 +40,5 @@ out/
 **/output/java/**
 **/output/resources/**
 
+## ignore log
 **/logs/**
