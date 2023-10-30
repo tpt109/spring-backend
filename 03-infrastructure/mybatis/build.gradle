@@ -18,6 +18,18 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2'
+	runtimeOnly 'com.h2database:h2'
+
+	annotationProcessor 'org.projectlombok:lombok'
+	compileOnly 'org.projectlombok:lombok'
+
+	implementation project(':02-application-core:crud-template')
+	implementation project(':00-fgcore:fgbase')
+	implementation project(':00-fgcore:fgutils')
+
+
 }
 
 tasks.named('test') {

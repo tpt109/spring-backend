@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+    <Properties>
+        <Property name="LOG_EXCEPTION_CONVERSION_WORD">%xwEx</Property>
+        <Property name="LOG_LEVEL_PATTERN">%5p</Property>
+        <Property name="CONSOLE_LOG_CHARSET">UTF-8</Property>
+        <Property name="FILE_LOG_CHARSET">UTF-8</Property>
+        <Property name="LOG_DATEFORMAT_PATTERN">yyyy-MM-dd HH:mm:ss.SSS</Property>
+        <Property name="CONSOLE_LOG_PATTERN">%-8relative - %d{${sys:LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} ${sys:LOG_LEVEL_PATTERN:-%-5p} ${container} [PID:%pid] - [%-15.15t] %-40.40logger{39}: %m{nolookups}%n${sys:LOG_EXCEPTION_CONVERSION_WORD:-%wEx}</Property>
+        <Property name="FILE_LOG_PATTERN">%-8relative - %d{${sys:LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} ${sys:LOG_LEVEL_PATTERN:-%-5p} ${container} [PID:%pid] - [%-15.15t] %-40.40logger{39}: %m{nolookups}%n${sys:LOG_EXCEPTION_CONVERSION_WORD:-%wEx}</Property>
+        <Property name="LOG_FILE">${sys:LOG_FILE:-app}</Property>
+        <Property name="LOG_PATH">${sys:LOG_PATH:-logs}</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${CONSOLE_LOG_PATTERN}" charset="${CONSOLE_LOG_CHARSET}" />
+        </Console>
+
+        <RollingRandomAccessFile name="ExternalFile" fileName="${LOG_PATH}/${LOG_FILE}.log" filePattern="${LOG_PATH}/$${date:yyyy-MM}/${LOG_FILE}-%d{yyyy-MM-dd}-%i.log.gz" immediateFlush="false">
+            <PatternLayout pattern="${FILE_LOG_PATTERN}" charset="${FILE_LOG_CHARSET}" />
+
+            <Policies>
+                <!-- rollover on startup -->
+                <OnStartupTriggeringPolicy />
+                <!-- OR rollover when the file reaches size -->
+                <SizeBasedTriggeringPolicy size="10 MB" />
+                <!-- OR rollover filePattern i.e. daily for yyyy-MM-dd -->
+                <TimeBasedTriggeringPolicy maxRandomDelay="30"/>
+            </Policies>
+
+            <DefaultRolloverStrategy>
+                <Delete basePath="${LOG_PATH}" maxDepth="2">
+                    <!-- delete files pattern glob -->
+                    <IfFileName glob="*/*.log.gz">
+                        <IfAny>
+                            <!-- delete if older than age -->
+                            <IfLastModified age="7d" />
+                            <!-- OR delete if total size greater than exceeds -->
+                            <IfAccumulatedFileSize exceeds="100 MB" />
+                            <!-- OR delete if number of files greater than exceeds -->
+                            <IfAccumulatedFileCount exceeds="10" />
+                        </IfAny>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingRandomAccessFile>
+
+<!--        <RollingRandomAccessFile name="InternalFile" fileName="${LOG_FILE}.log" filePattern="${LOG_FILE}-%d{yyyy-MM-dd}-%i.log.gz" immediateFlush="false">-->
+<!--            <PatternLayout pattern="${FILE_LOG_PATTERN}" charset="${FILE_LOG_CHARSET}" />-->
+
+<!--            <Policies>-->
+<!--                &lt;!&ndash; rollover on startup &ndash;&gt;-->
+<!--                <OnStartupTriggeringPolicy />-->
+<!--                &lt;!&ndash; OR rollover when the file reaches size &ndash;&gt;-->
+<!--                <SizeBasedTriggeringPolicy size="1 MB" />-->
+<!--                &lt;!&ndash; OR rollover filePattern i.e. daily for yyyy-MM-dd &ndash;&gt;-->
+<!--                <TimeBasedTriggeringPolicy maxRandomDelay="30"/>-->
+<!--            </Policies>-->
+
+<!--            <DefaultRolloverStrategy>-->
+<!--                <Delete basePath=".">-->
+<!--                    &lt;!&ndash; delete files pattern glob &ndash;&gt;-->
+<!--                    <IfFileName glob="*.log.gz">-->
+<!--                        <IfAny>-->
+<!--                            &lt;!&ndash; delete if older than age &ndash;&gt;-->
+<!--                            <IfLastModified age="1d" />-->
+<!--                            &lt;!&ndash; OR delete if total size greater than exceeds &ndash;&gt;-->
+<!--                            <IfAccumulatedFileSize exceeds="10 MB" />-->
+<!--                            &lt;!&ndash; OR delete if number of files greater than exceeds &ndash;&gt;-->
+<!--                            <IfAccumulatedFileCount exceeds="3" />-->
+<!--                        </IfAny>-->
+<!--                    </IfFileName>-->
+<!--                </Delete>-->
+<!--            </DefaultRolloverStrategy>-->
+<!--        </RollingRandomAccessFile>-->
+
+        <!-- async appender -->
+        <Async name="Async" includeLocation="false">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="ExternalFile" />
+<!--            <AppenderRef ref="InternalFile" />-->
+        </Async>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="org.apache.catalina.startup.DigesterFactory" level="error" />
+        <Logger name="org.apache.catalina.util.LifecycleBase" level="error" />
+        <Logger name="org.apache.coyote.http11.Http11NioProtocol" level="warn" />
+        <Logger name="org.apache.sshd.common.util.SecurityUtils" level="warn" />
+        <Logger name="org.apache.tomcat.util.net.NioSelectorPool" level="warn" />
+        <Logger name="org.eclipse.jetty.util.component.AbstractLifeCycle" level="error" />
+        <Logger name="org.hibernate.validator.internal.util.Version" level="warn" />
+        <Logger name="org.springframework.boot.actuate.endpoint.jmx" level="warn" />
+
+        <Root level="info">
+            <AppenderRef ref="Async" />
+        </Root>
+    </Loggers>
+</Configuration>

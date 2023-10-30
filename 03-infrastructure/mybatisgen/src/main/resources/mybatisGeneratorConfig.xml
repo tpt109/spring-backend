@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <properties resource="application.properties"/>
+    <!-- Path to JDBC driver -->
+    <context id="local"  targetRuntime="MyBatis3">
+        <jdbcConnection driverClass="${mbg.database.driver}"
+                        connectionURL="${mbg.database.url}"
+                        userId="${mbg.database.user}"
+                        password="${mbg.database.pass}" />
+
+        <javaModelGenerator targetPackage="${mbg.entity.package}"
+                        targetProject="${mbg.target.java}" />
+
+        <sqlMapGenerator targetPackage="${mbg.mapper.package}"
+                        targetProject="${mbg.target.xml}" />
+
+        <javaClientGenerator targetPackage="${mbg.mapper.xml}"
+                        targetProject="${mbg.target.java}"
+                        type="XMLMAPPER" >
+<!--            <property name="enableSubPackages" value="true" />-->
+            <property name="trimStrings" value="true" />
+<!--            <property name="rootInterface" value="com.figpop.backend.infrastructure.mybatis.mapper.BaseMapper" />-->
+        </javaClientGenerator>
+        <table schema="" tableName="crud_uuid" domainObjectName="CrudUuidEntity" mapperName="CrudUuidMapper" >
+            <property name="mapUnderscoreToCamelCase" value="true" />
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true" />-->
+            <!-- <property name="dynamicSqlSupportClassName" value="AssetDynamicSqlSupport" />
+            <property name="dynamicSqlTableObjectName" value="assets" /> -->
+<!--            <ignoreColumn column="fred"/>-->
+<!--            <columnOverride column="BEG_DATE" property="startDate"/>-->
+        </table>
+
+    </context>
+</generatorConfiguration>

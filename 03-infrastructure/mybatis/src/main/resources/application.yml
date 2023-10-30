@@ -1,0 +1,54 @@
+spring:
+  datasource:
+#    url: jdbc:mysql://127.0.0.1:3306/boliderplatedb?useUnicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true&failOverReadOnly=false&serverTimezone=GMT%2B7
+#    username: root
+#    password: root
+    url: jdbc:h2:mem:./test;MODE=MySQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;
+    username: sa
+    password: root
+    driver-class-name: org.h2.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      minimum-idle: 5
+      connection-test-query: SELECT 1 FROM DUAL
+      maximum-pool-size: 20
+      auto-commit: true
+      idle-timeout: 30000
+      pool-name: SpringBootDemoHikariCP
+      max-lifetime: 60000
+      connection-timeout: 30000
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  sql:
+    init:
+      mode: embedded
+      schema-locations: classpath:dbtest/schema.sql
+
+mybatis:
+  configuration:
+    # 下划线转驼峰
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:mappers/*.xml
+  type-aliases-package: com.figpop.backend.infrastructure.mybatis.generated.entity
+server:
+  port: 8888
+
+container: mybatis
+logging:
+  register-shutdown-hook: 'true'
+  pattern:
+    file: '%-8relative - %d{${LOG_DATEFORMAT_PATTERN:yyyy-MM-dd HH:mm:ss.SSS}} ${LOG_LEVEL_PATTERN:%-5p}
+      ${PID:- } - [%-15.15t] %-40.40logger{39}: %m{nolookups}%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}'
+    console: '%-8relative - %d{${LOG_DATEFORMAT_PATTERN:yyyy-MM-dd HH:mm:ss.SSS}}
+      ${LOG_LEVEL_PATTERN:%-5p} ${PID:- } - [%-15.15t] %-40.40logger{39}: %m{nolookups}%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}'
+  file:
+    path: logs
+    name: ${container}
+  logback:
+    rollingpolicy:
+      clean-history-on-start: 'true'
+  config: classpath:log4j2-spring.xml
+  level:
+    root: INFO

@@ -26,148 +26,17 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2'
-	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
+	compileOnly 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.2'
 	testImplementation 'org.springframework.security:spring-security-test'
+
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
-}
-
-subprojects {
-
-	repositories {
-		mavenCentral()
-	}
-
-	// plugin apply for all sub projects
-	apply plugin: 'java'
-//	apply plugin: 'jacoco'
-//	apply plugin: 'checkstyle'
-//	apply plugin: 'com.github.spotbugs'
-	apply plugin: 'io.freefair.lombok'
-	apply plugin: 'org.springframework.boot'
-	apply plugin: 'io.spring.dependency-management'
-
-	group = 'com.figpop.backend'
-	version = '0.0.1-SNAPSHOT'
-
-	dependencies {
-//		implementation 'org.springframework.boot:spring-boot-starter-web'
-//		implementation 'org.springframework.boot:spring-boot-starter-validation'
-//		implementation 'org.apache.commons:commons-lang3:3.12.0'
-//		spotbugsSlf4j "org.slf4j:slf4j-simple"
-
-//		implementation 'org.springframework.boot:spring-boot-starter'
-//		implementation 'org.springframework.boot:spring-boot-starter-log4j2'
-//		testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-//		implementation group: 'org.springframework.data', name: 'spring-data-commons', version: '3.1.4'
-//		implementation 'com.google.guava:guava:31.1-jre'
-
-//		implementation group: 'com.alibaba', name: 'fastjson', version: '2.0.40'
-
-		// log dependencies
-//		implementation platform("org.apache.logging.log4j:log4j-bom:2.19.0")
-
-//		runtimeOnly 'com.mysql:mysql-connector-j'
-	}
-
-//	jacoco {
-//		toolVersion = '0.8.8'
-//	}
-//	checkstyle {
-//		toolVersion = '8.18'
-//		configDirectory = rootProject.file('config/checkstyle')
-//	}
-//	spotbugs {
-//		toolVersion = '4.7.3'
-//		ignoreFailures = true
-//	}
-//
-//	// Execute jacocoTestReport task after test task
-//	test {
-//		useJUnitPlatform()
-//		finalizedBy jacocoTestReport
-//	}
-//
-//	// Exclude the above classes when outputting JaCoCo reports
-//	jacocoTestReport {
-//		reports {
-//			xml.required = false
-//			csv.required = false
-//			html.required = true
-//		}
-//	}
-//
-//	// After running SpotBugs, output HTML report at the same time
-//	spotbugsMain {
-//		reports {
-//			html {
-//				enabled true
-//				destination file("${buildDir}/reports/spotbugs/main.html")
-//			}
-//		}
-//	}
-
-	// disable bootJar for all project
-	bootJar {
-		enabled = false
-	}
-
-	jar {
-		enabled = true
-	}
-
-	configurations {
-		compileOnly {
-			extendsFrom annotationProcessor
-		}
-		runtimeClasspath.shouldResolveConsistentlyWith(compileClasspath)
-
-//		all {
-//			// disable to avoid conflict
-//			exclude group: "com.vaadin.external.google", module: "android-json"
-//			// disable logback for logging
-//			exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
-//			exclude group: "ch.qos.logback", module: "logback-classic"
-//			exclude group: "ch.qos.logback", module: "logback-core"
-//
-//			// disable JUnit4; exemption for using testcontainers and rest-assured
-//			exclude group: "junit", module: "junit"
-//
-//			resolutionStrategy {
-//				failOnVersionConflict()
-//				failOnDynamicVersions()
-//				failOnChangingVersions()
-//			}
-//
-//		}
-	}
-
-	// Compiling
-	java {
-		consistentResolution {
-			useCompileClasspathVersions()
-		}
-	}
-
-	tasks.withType(JavaCompile).configureEach {
-		sourceCompatibility = JavaVersion.VERSION_17
-		targetCompatibility = JavaVersion.VERSION_17
-
-		options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
-		options.fork = true
-		options.incremental = true
-	}
-
-	compileJava.options.encoding = 'UTF-8'
-	compileTestJava.options.encoding = 'UTF-8'
-	javadoc.options.encoding = 'UTF-8'
 }
