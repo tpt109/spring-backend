@@ -36,4 +36,8 @@ out/
 ### VS Code ###
 .vscode/
 
+## ignore output
+**/output/java/**
+**/output/resources/**
+
 
