@@ -3,6 +3,7 @@ package com.figpop.backend.infrastructure.mybatis.repository;
 import com.figpop.backend.fgcore.fgbase.pagination.PageModel;
 import com.figpop.backend.fgcore.fgbase.repository.BaseRepository;
 import com.figpop.backend.fgcore.fgutils.spring.GenericTypeUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,6 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 
 
+@Slf4j
 public class MybatisBaseRepository<M ,T ,E ,S extends Serializable> implements BaseRepository<T,S> {
 
     @Autowired
@@ -44,8 +46,7 @@ public class MybatisBaseRepository<M ,T ,E ,S extends Serializable> implements B
 
             return true;
         } catch(Exception ex) {
-            // TODO add logger here
-            System.out.println(ex.getMessage());
+            LOGGER.error(ex.getMessage());
         }
 
         return false;
