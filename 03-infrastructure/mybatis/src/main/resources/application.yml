@@ -25,6 +25,7 @@ spring:
     init:
       mode: embedded
       schema-locations: classpath:dbtest/schema.sql
+      data-locations: classpath:dbtest/data.sql
 
 mybatis:
   configuration:

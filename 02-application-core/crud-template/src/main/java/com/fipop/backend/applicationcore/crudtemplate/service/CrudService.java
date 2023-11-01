@@ -11,6 +11,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @AllArgsConstructor
-public class CrudService extends BaseService<CrudUuidRepository, CrudUuid,Long> {
+public class CrudService extends BaseService<CrudUuidRepository, CrudUuid,String> {
 
 }

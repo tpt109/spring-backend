@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public interface BaseRepository<T,S extends Serializable> {
+public interface BaseRepository<T,PK extends Serializable> {
 
     /**
      * Add crud
@@ -23,7 +23,7 @@ public interface BaseRepository<T,S extends Serializable> {
      * @param T object
      * @return updated crud object information
      */
-    boolean update(T model);
+    boolean update(T model,PK id);
 
     /**
      * Gets the T information for the specified ID.
@@ -31,7 +31,7 @@ public interface BaseRepository<T,S extends Serializable> {
      * @param id Id
      * @return T information. Optional, empty if not present.
      */
-    Optional<T> findById(S id);
+    Optional<T> findById(PK id);
 
     /**
      * Gets list T information for the specified ID.
@@ -39,7 +39,7 @@ public interface BaseRepository<T,S extends Serializable> {
      * @param filter
      * @return T information. Optional, empty if not present.
      */
-    Optional<List<T>> findAll(Map<String,String> filter);
+    Optional<List<T>> findAll(Map<String,Object> filter);
 
     /**
      * Gets list T information for the specified ID.
@@ -54,5 +54,5 @@ public interface BaseRepository<T,S extends Serializable> {
      *
      * @return success / false
      */
-    boolean delete(S id);
+    boolean delete(PK id);
 }

@@ -6,6 +6,6 @@ import com.fipop.backend.applicationcore.crudtemplate.model.CrudUuid;
 /**
  * Crud repository
  */
-public interface CrudUuidRepository extends BaseRepository<CrudUuid,Long> {
+public interface CrudUuidRepository extends BaseRepository<CrudUuid,String> {
 
 }

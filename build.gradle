@@ -143,9 +143,9 @@ subprojects {
 //			// disable to avoid conflict
 //			exclude group: "com.vaadin.external.google", module: "android-json"
 //			// disable logback for logging
-//			exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
-//			exclude group: "ch.qos.logback", module: "logback-classic"
-//			exclude group: "ch.qos.logback", module: "logback-core"
+			exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
+			exclude group: "ch.qos.logback", module: "logback-classic"
+			exclude group: "ch.qos.logback", module: "logback-core"
 
 			// disable JUnit4; exemption for using testcontainers and rest-assured
 //			exclude group: "junit", module: "junit"

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class BaseService <R extends BaseRepository<T,S>,T , S extends Serializable> {
+public class BaseService <R extends BaseRepository<T,PK>,T , PK extends Serializable> {
 
     @Autowired
     private R baseRepository ;
@@ -17,15 +17,15 @@ public class BaseService <R extends BaseRepository<T,S>,T , S extends Serializab
     boolean add(T model) {
         return baseRepository.add(model);
     }
-    boolean update(T model) {
-        return baseRepository.update(model);
+    boolean update(T model,PK id) {
+        return baseRepository.update(model,id);
     }
 
-    Optional<T> findById(S id) {
+    Optional<T> findById(PK id) {
         return baseRepository.findById(id);
     }
 
-    Optional<List<T>> findAll(Map<String,String> filter){
+    Optional<List<T>> findAll(Map<String,Object> filter){
         return baseRepository.findAll(filter);
     }
 
@@ -33,7 +33,7 @@ public class BaseService <R extends BaseRepository<T,S>,T , S extends Serializab
         return baseRepository.getPaging(filter);
     }
 
-    boolean delete(S id) {
+    boolean delete(PK id) {
         return baseRepository.delete(id);
     }
 }

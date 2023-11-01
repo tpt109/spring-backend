@@ -4,16 +4,24 @@
     <properties resource="application.properties"/>
     <!-- Path to JDBC driver -->
     <context id="local"  targetRuntime="MyBatis3">
+        <plugin type="com.figpop.backend.infrastructure.mybatisgen.plugin.SelectForUpdatePlugin">
+
+        </plugin>
         <jdbcConnection driverClass="${mbg.database.driver}"
                         connectionURL="${mbg.database.url}"
                         userId="${mbg.database.user}"
-                        password="${mbg.database.pass}" />
+                        password="${mbg.database.pass}" >
+        <property name="nullCatalogMeansCurrent" value="true" />
+        </jdbcConnection>
 
         <javaModelGenerator targetPackage="${mbg.entity.package}"
                         targetProject="${mbg.target.java}" />
 
         <sqlMapGenerator targetPackage="${mbg.mapper.package}"
-                        targetProject="${mbg.target.xml}" />
+                        targetProject="${mbg.target.xml}" >
+            <property name="rootXML" value="ekwejkwekew" />
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
 
         <javaClientGenerator targetPackage="${mbg.mapper.xml}"
                         targetProject="${mbg.target.java}"
@@ -22,13 +30,15 @@
             <property name="trimStrings" value="true" />
 <!--            <property name="rootInterface" value="com.figpop.backend.infrastructure.mybatis.mapper.BaseMapper" />-->
         </javaClientGenerator>
-        <table schema="" tableName="crud_uuid" domainObjectName="CrudUuidEntity" mapperName="CrudUuidMapper" >
+        <table  schema="" tableName="crud_uuid" domainObjectName="CrudUuidEntity" mapperName="CrudUuidMapper" >
             <property name="mapUnderscoreToCamelCase" value="true" />
 <!--            <generatedKey column="id" sqlStatement="JDBC" identity="true" />-->
             <!-- <property name="dynamicSqlSupportClassName" value="AssetDynamicSqlSupport" />
             <property name="dynamicSqlTableObjectName" value="assets" /> -->
 <!--            <ignoreColumn column="fred"/>-->
 <!--            <columnOverride column="BEG_DATE" property="startDate"/>-->
+            <property name="implementSelectForUpdate" value="true" />
+
         </table>
 
     </context>
