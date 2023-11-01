@@ -2,8 +2,8 @@ package com.figpop.backend.infrastructure.mybatis.repository;
 
 import com.figpop.backend.fgcore.fgbase.pagination.PageModel;
 import com.figpop.backend.fgcore.fgbase.repository.BaseRepository;
+import com.figpop.backend.fgcore.fgutils.contants.SymbolConstant;
 import com.figpop.backend.fgcore.fgutils.spring.GenericTypeUtils;
-import com.figpop.backend.infrastructure.mybatis.generated.entity.CrudUuidEntityExample;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,7 +97,6 @@ public class MybatisBaseRepository<M ,T ,E ,EE ,PK extends Serializable> impleme
             Method methodSelect = currentMapperClass().getMethod("selectByExample",currentEntityExampleClass());
             @SuppressWarnings("unchecked")
             List<E> entityList = (List<E>)methodSelect.invoke(mapper,example);
-
             if (entityList == null || entityList.isEmpty()) return Optional.empty();
 
             List<T> modelList = new ArrayList<>();
@@ -115,27 +114,35 @@ public class MybatisBaseRepository<M ,T ,E ,EE ,PK extends Serializable> impleme
     }
 
     private void addCriteriaIntoExample(EE example ,Map<String, Object> filter) {
+        try {
+            Method methodGetCriteriaObject = currentEntityExampleClass().getMethod("or");
+            Object objectCriteria = methodGetCriteriaObject.invoke(example);
 
-        for (Map.Entry<String, Object> entry : filter.entrySet()) {
-            String key = entry.getKey();
-            Object value = entry.getValue();
+            for (Map.Entry<String, Object> entry : filter.entrySet()) {
+                String key = entry.getKey();
+                Object value = entry.getValue();
 
-
-            try {
-                Method methodGetCriteriaObject = currentEntityExampleClass().getMethod("or");
-                Object objectCriteria = methodGetCriteriaObject.invoke(example);
-
-                // TODO filter by equal first
-                String fieldName = String.valueOf(key.charAt(0)).toUpperCase() + key.substring(1);
-                String conditionName = "EqualTo";
-                String methodName = "and" + fieldName + conditionName;
+                String methodName;
+                String firstCharColumn = String.valueOf(key.charAt(0)).toUpperCase();
+                if (key.endsWith(SymbolConstant.EQUAL_SQL)) {
+                    String fieldName = firstCharColumn + key.substring(1,key.length() - 2);
+                    methodName = SymbolConstant.AND_EN + fieldName + SymbolConstant.EQUAL_CONDITION;
+                } else if (key.endsWith(SymbolConstant.LIKE_SQL) && value instanceof String) {
+                    String fieldName = firstCharColumn + key.substring(1,key.length() - 4);
+                    methodName = SymbolConstant.AND_EN + fieldName + SymbolConstant.LIKE_CONDITION;
+                    value = SymbolConstant.PERCENT_SIGN + value + SymbolConstant.PERCENT_SIGN;
+                } else {
+                    LOGGER.error("can't query : " + key + ":" + value);
+                    throw new RuntimeException("can't query : " + key + ":" + value);
+                }
 
                 Method methodCreateCriteria = objectCriteria.getClass().getMethod(methodName, value.getClass());
                 methodCreateCriteria.invoke(objectCriteria, value);
-            } catch (Exception ex) {
-                LOGGER.error(ex.getMessage());
-                throw new RuntimeException(ex);
+
             }
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+            throw new RuntimeException(ex);
         }
     }
 

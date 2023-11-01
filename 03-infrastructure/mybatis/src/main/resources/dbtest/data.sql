@@ -1,1 +1,2 @@
 INSERT INTO `crud_uuid` (`id`, `name`, `phone_number`, `zip_code`, `age`, `type`) VALUES ('a1b2c3d4', 'name1', 'phone001', 'zip1', '20', '1');
+INSERT INTO `crud_uuid` (`id`, `name`, `phone_number`, `zip_code`, `age`, `type`) VALUES ('123456', 'toantp', '0935696768', '000-0001', '36', '2');

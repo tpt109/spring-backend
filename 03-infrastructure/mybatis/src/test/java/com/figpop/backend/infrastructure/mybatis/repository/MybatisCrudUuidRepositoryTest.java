@@ -30,10 +30,10 @@ class MybatisCrudUuidRepositoryTest {
         String id = UUIDGenerator.generate();
 
         model.setId(id);
-        model.setName("eweew");
-        model.setAge(20);
-        model.setType(1);
-        model.setZipCode("ewewe");
+        model.setName("name add");
+        model.setAge(33);
+        model.setType(2);
+        model.setZipCode("000-222");
         model.setPhoneNumber("32932939232");
 
         assertTrue(repository.add(model));
@@ -42,10 +42,10 @@ class MybatisCrudUuidRepositoryTest {
     @Test
     void update() {
         CrudUuid model = new CrudUuid();
-        model.setName("toantp");
+        model.setName("updatename");
         model.setAge(20);
         model.setType(1);
-        model.setZipCode("ewewe");
+        model.setZipCode("333-333");
         model.setPhoneNumber("32932939232");
 
         assertTrue(repository.update(model,"a1b2c3d4"));
@@ -56,13 +56,43 @@ class MybatisCrudUuidRepositoryTest {
     }
 
     @Test
-    void findAll() {
+    void findAllByName() {
+        Map<String,Object> filterMap = new HashMap<>();
+        filterMap.put("name==","toantp");
+        List<CrudUuid> crudUuids = repository.findAll(filterMap).orElseThrow();
+       assertEquals(1,crudUuids.size()); ;
+    }
+
+    @Test
+    void findAllByAge() {
+        Map<String,Object> filterMap = new HashMap<>();
+        filterMap.put("age==",36);
+        List<CrudUuid> crudUuids = repository.findAll(filterMap).orElseThrow();
+        assertEquals(1,crudUuids.size()); ;
+    }
+
+    @Test
+    void findAllByAgeAndName() {
 
         Map<String,Object> filterMap = new HashMap<>();
-        filterMap.put("name","name1");
+        filterMap.put("age==",36);
+        filterMap.put("name==","toantp");
         List<CrudUuid> crudUuids = repository.findAll(filterMap).orElseThrow();
+        assertEquals(1,crudUuids.size()); ;
+    }
 
-       assertEquals(1,crudUuids.size()); ;
+    @Test
+    void findAllByContainName() {
+        Map<String,Object> filterMap = new HashMap<>();
+        filterMap.put("nameLIKE","oan");
+        List<CrudUuid> crudUuids = repository.findAll(filterMap).orElseThrow();
+        assertEquals(1,crudUuids.size()); ;
+    }
+
+    @Test
+    void findAllWithoutCondition() {
+        List<CrudUuid> crudUuids = repository.findAll(null).orElseThrow();
+        assertEquals(2,crudUuids.size()); ;
     }
 
     @Test
