@@ -1,6 +1,7 @@
 package com.figpop.backend.fgcore.fgbase.service;
 
 import com.figpop.backend.fgcore.fgbase.pagination.PageModel;
+import com.figpop.backend.fgcore.fgbase.pagination.PageRequest;
 import com.figpop.backend.fgcore.fgbase.repository.BaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -29,8 +30,8 @@ public class BaseService <R extends BaseRepository<T,PK>,T , PK extends Serializ
         return baseRepository.findAll(filter);
     }
 
-    Optional<PageModel<T>> getPaging(Map<String,String> filter) {
-        return baseRepository.getPaging(filter);
+    Optional<PageModel<T>> getPaging(Map<String,Object> filter, PageRequest pageRequest) {
+        return baseRepository.getPaging(filter,pageRequest);
     }
 
     boolean delete(PK id) {

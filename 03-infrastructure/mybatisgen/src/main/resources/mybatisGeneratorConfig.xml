@@ -7,6 +7,7 @@
         <plugin type="com.figpop.backend.infrastructure.mybatisgen.plugin.SelectForUpdatePlugin">
 
         </plugin>
+        <plugin type="com.figpop.backend.infrastructure.mybatisgen.plugin.MySQLLimitPlugin"></plugin>
         <jdbcConnection driverClass="${mbg.database.driver}"
                         connectionURL="${mbg.database.url}"
                         userId="${mbg.database.user}"

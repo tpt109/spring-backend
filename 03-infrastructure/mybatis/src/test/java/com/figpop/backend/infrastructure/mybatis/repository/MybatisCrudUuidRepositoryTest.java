@@ -1,5 +1,8 @@
 package com.figpop.backend.infrastructure.mybatis.repository;
 
+import com.figpop.backend.fgcore.fgbase.pagination.PageModel;
+import com.figpop.backend.fgcore.fgbase.pagination.PageRequest;
+import com.figpop.backend.fgcore.fgbase.pagination.PaginationUtils;
 import com.figpop.backend.fgcore.fgutils.generator.UUIDGenerator;
 import com.figpop.backend.infrastructure.mybatis.MybatisApplication;
 import com.fipop.backend.applicationcore.crudtemplate.model.CrudUuid;
@@ -97,9 +100,21 @@ class MybatisCrudUuidRepositoryTest {
 
     @Test
     void getPaging() {
+
+        Map<String,Object> filterMap = new HashMap<>();
+
+        Map<String,String> pageRequestMap = new HashMap<>();
+        pageRequestMap.put("page","0");
+        pageRequestMap.put("limit","2");
+
+        PageRequest pageRequest = PaginationUtils.generatePageRequest(pageRequestMap);
+        filterMap.put("nameLIKE","oan");
+        PageModel<CrudUuid> crudUuidPageModel = repository.getPaging(filterMap,pageRequest).orElseThrow();
+        assertEquals(1,crudUuidPageModel.getRecords().size()); ;
     }
 
     @Test
     void delete() {
+        repository.delete("a1b2c3d4");
     }
 }

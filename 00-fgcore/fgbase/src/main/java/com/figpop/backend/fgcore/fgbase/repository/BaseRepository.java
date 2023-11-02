@@ -1,6 +1,7 @@
 package com.figpop.backend.fgcore.fgbase.repository;
 
 import com.figpop.backend.fgcore.fgbase.pagination.PageModel;
+import com.figpop.backend.fgcore.fgbase.pagination.PageRequest;
 
 import java.io.Serializable;
 import java.util.List;
@@ -47,7 +48,7 @@ public interface BaseRepository<T,PK extends Serializable> {
      * @param filter
      * @return T information. Optional, empty if not present.
      */
-    Optional<PageModel<T>> getPaging(Map<String,String> filter);
+    Optional<PageModel<T>> getPaging(Map<String,Object> filter, PageRequest pageRequest);
 
     /**
      * update crud
