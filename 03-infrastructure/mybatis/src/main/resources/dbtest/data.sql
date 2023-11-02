@@ -1,2 +1,1 @@
-INSERT INTO `crud_uuid` (`id`, `name`, `phone_number`, `zip_code`, `age`, `type`) VALUES ('a1b2c3d4', 'name1', 'phone001', 'zip1', '20', '1');
-INSERT INTO `crud_uuid` (`id`, `name`, `phone_number`, `zip_code`, `age`, `type`) VALUES ('123456', 'toantp', '0935696768', '000-0001', '36', '2');
+INSERT INTO `crud_uuid` (`id`, `name`, `grade`, `birthday`, `wallet_balance`, `rich_text`, `json_data`, `base64_data`, `create_by`, `create_time`, `update_by`, `update_time`, `phone_number`) VALUES ('a1b2c3d4', 'name1', '20', '1988-10-10', '202.22', 'rich text<dsd>êw>', '{\"toantp\" : \"ewewe\"}', 'ưqwqwqw', 'system', '2023-09-27 16:51:52', 'toantp', '2023-09-30 16:51:52', '21212121');
